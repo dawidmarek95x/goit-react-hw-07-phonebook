@@ -1,11 +1,13 @@
 import { Button, Form, Input, Label } from './ContactForm.styled';
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/actions/contactsActions';
+import { addContact } from 'redux/reducers/contactsSlice';
+import { store } from 'redux/store';
 
 const ContactForm = () => {
   const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
+  console.log(store.getState());
 
   const addNewContact = e => {
     e.preventDefault();
