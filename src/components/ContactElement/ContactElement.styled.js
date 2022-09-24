@@ -19,6 +19,10 @@ export const Wrapper = styled.div`
   }
 `;
 
+export const ContactName = styled.span`
+  margin-right: 10px;
+`;
+
 export const Button = styled.button`
   min-width: 18px;
   min-height: 18px;

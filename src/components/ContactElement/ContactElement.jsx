@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/reducers/contactsSlice';
-import { Button, Item, TelBtn, Wrapper } from './ContactElement.styled';
+import { Button, ContactName, Item, TelBtn, Wrapper } from './ContactElement.styled';
 
-export const ContactElement = ({ id, name, number }) => {
+export const ContactElement = ({ id, name, phone }) => {
   const dispatch = useDispatch();
 
   return (
     <Item>
       <Wrapper>
-        <span>
-          {name}: {number}
-        </span>
-        <TelBtn as="a" href={`tel:${number}`}>{' '}</TelBtn>
+          <ContactName>{name}:</ContactName>
+          <span>{phone}</span>
+        <TelBtn as="a" href={`tel:${phone}`}>{' '}</TelBtn>
         <Button
           type="button"
           onClick={() => dispatch(deleteContact(id))}
@@ -25,7 +24,7 @@ export const ContactElement = ({ id, name, number }) => {
 ContactElement.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default ContactElement;

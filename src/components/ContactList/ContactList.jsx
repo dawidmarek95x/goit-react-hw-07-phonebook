@@ -1,33 +1,47 @@
 import ContactElement from 'components/ContactElement/ContactElement';
+import Loader from 'components/Loader/Loader';
 import { useSelector } from 'react-redux';
+import { useGetContactsQuery } from 'services/phonebookApi';
 import { Info, List } from './ContactList.styled';
 
 export const ContactList = () => {
-  const contacts = useSelector(state => state.contacts);
+  const {
+    data: contacts,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetContactsQuery();
   const filter = useSelector(state => state.filter);
 
-  const filteredContacts = contacts
-    .filter(c => c.name.toLowerCase().includes(filter))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  let content = <Info>No contacts in the phonebook</Info>;
 
-  return (
-    <>
-      {filteredContacts.length !== 0 ? (
-        <List>
-          {filteredContacts.map(c => (
-            <ContactElement
-              key={c.id}
-              id={c.id}
-              name={c.name}
-              number={c.number}
-            />
-          ))}
-        </List>
-      ) : (
-        <Info>No contacts in the phonebook</Info>
-      )}
-    </>
-  );
+  if (isLoading) {
+    content = <Loader>Loading...</Loader>;
+  } else if (isSuccess) {
+    let filteredContacts = contacts
+      .filter(c => c.name.toLowerCase().includes(filter))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    filteredContacts.length !== 0
+      ? (content = (
+          <List>
+            {filteredContacts.map(c => (
+              <ContactElement
+                key={c.id}
+                id={c.id}
+                name={c.name}
+                phone={c.phone}
+              />
+            ))}
+          </List>
+        ))
+      : (content = <Info>No contacts in the phonebook</Info>);
+  } else if (isError) {
+    content = <div>{error.toString()}</div>;
+  }
+
+  return <>{content}</>;
 };
 
 export default ContactList;
