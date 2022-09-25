@@ -1,35 +1,42 @@
 import { Button, Form, Input, Label } from './ContactForm.styled';
 import { nanoid } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/reducers/contactsSlice';
+import { useAddContactMutation, useGetContactsQuery } from 'services/phonebookApi';
 
 const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts);
-  const dispatch = useDispatch();
+  const {
+    data: contacts = [],
+  } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
 
-  const addNewContact = e => {
+  const addNewContact = async e => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
-    const number = form.number.value;
+    const phone = form.phone.value;
 
     if (contacts.some(c => c.name === name)) {
-      alert(`${name} is already in contacts`);
-    } else if (contacts.some(c => c.number === number)) {
-      const [contactWithNumber] = contacts.filter(c => c.number === number);
-      alert(
-        `Number ${contactWithNumber.number} is already in phonebook. It belongs to ${contactWithNumber.name}.`
-      );
-    } else {
-      dispatch(
-        addContact({
-          id: nanoid(),
-          name,
-          number,
-        })
-      );
-      form.reset();
+      return alert(`${name} is already in contacts`);
     }
+
+    if (contacts.some(c => c.phone === phone)) {
+      const [contactWithPhone] = contacts.filter(c => c.phone === phone);
+
+      return alert(
+        `Number ${contactWithPhone.phone} is already in phonebook. It belongs to ${contactWithPhone.name}.`
+      );
+    }
+
+    try {
+      await addContact({
+        id: nanoid(),
+        name,
+        phone,
+      });
+    } catch (error) {
+      alert(`Failed to save contact ${name} in Phonebook!`);
+    }
+
+    form.reset();
   };
 
   return (
@@ -48,7 +55,7 @@ const ContactForm = () => {
         Number
         <Input
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

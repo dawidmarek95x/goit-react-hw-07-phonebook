@@ -1,20 +1,27 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/reducers/contactsSlice';
-import { Button, ContactName, Item, TelBtn, Wrapper } from './ContactElement.styled';
+import { useDeleteContactMutation } from 'services/phonebookApi';
+import {
+  Button,
+  ContactName,
+  Item,
+  TelBtn,
+  Wrapper,
+} from './ContactElement.styled';
 
 export const ContactElement = ({ id, name, phone }) => {
-  const dispatch = useDispatch();
+  const [deleteContact] = useDeleteContactMutation();
 
   return (
     <Item>
       <Wrapper>
-          <ContactName>{name}:</ContactName>
-          <span>{phone}</span>
-        <TelBtn as="a" href={`tel:${phone}`}>{' '}</TelBtn>
+        <ContactName>{name}:</ContactName>
+        <span>{phone}</span>
+        <TelBtn as="a" href={`tel:${phone}`}>
+          {' '}
+        </TelBtn>
         <Button
           type="button"
-          onClick={() => dispatch(deleteContact(id))}
+          onClick={() => deleteContact(id)}
         ></Button>
       </Wrapper>
     </Item>

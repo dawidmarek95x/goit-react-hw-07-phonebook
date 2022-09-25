@@ -1,12 +1,13 @@
 import ContactElement from 'components/ContactElement/ContactElement';
 import Loader from 'components/Loader/Loader';
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetContactsQuery } from 'services/phonebookApi';
 import { Info, List } from './ContactList.styled';
 
 export const ContactList = () => {
   const {
-    data: contacts,
+    data: contacts = [],
     isLoading,
     isSuccess,
     isError,
@@ -14,15 +15,17 @@ export const ContactList = () => {
   } = useGetContactsQuery();
   const filter = useSelector(state => state.filter);
 
+  let filteredContacts = useMemo(() => {
+    return contacts
+      .filter(c => c.name.toLowerCase().includes(filter))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [contacts, filter]);
+
   let content = <Info>No contacts in the phonebook</Info>;
 
   if (isLoading) {
     content = <Loader>Loading...</Loader>;
   } else if (isSuccess) {
-    let filteredContacts = contacts
-      .filter(c => c.name.toLowerCase().includes(filter))
-      .sort((a, b) => a.name.localeCompare(b.name));
-
     filteredContacts.length !== 0
       ? (content = (
           <List>
