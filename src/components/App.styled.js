@@ -9,9 +9,7 @@ export const AppWrapper = styled.div`
   margin: 0 auto 10px auto;
   border: none;
   border-radius: 20px;
-  background-color: #F0FED6;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.7);
-  -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.7);
+  background-image: linear-gradient(to right top, #e0af5b, #dfb762, #ddbf69, #dbc771, #dace7a, #dace7a, #dace7a, #dace7a, #dbc771, #ddbf69, #dfb762, #e0af5b);
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.7);
 `;
 

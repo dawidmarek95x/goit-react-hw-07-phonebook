@@ -29,13 +29,13 @@ export const Input = styled.input`
 
   &:hover {
     border-color: rgb(59, 59, 59);
-    box-shadow: 0px 0px 3px 0px rgba(59, 59, 59, 0.5);
+    box-shadow: 0px 0px 4px 0px rgba(59, 59, 59, 0.6);
     transition: border-color 400ms, box-shadow 400ms;
   }
 
   &:focus {
-    border-color: rgba(138, 63, 50, 0.8);
-    box-shadow: 0px 0px 4px 0px rgba(138, 63, 50, 0.8);
+    border-color: #361C01;
+    box-shadow: 0px 0px 5px 0px #361C01;
     transition: border-color 600ms, box-shadow 600ms;
   }
 `;

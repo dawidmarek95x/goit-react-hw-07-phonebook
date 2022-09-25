@@ -15,7 +15,8 @@ export const Wrapper = styled.div`
   border-bottom: 1px solid gray;
 
   &:hover {
-    border-color: orangered;
+    border-color: #3B1818;
+    
   }
 `;
 

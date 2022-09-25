@@ -25,8 +25,8 @@ export const Input = styled.input`
   }
 
   &:focus {
-    border-color: rgba(138, 63, 50, 0.8);
-    box-shadow: 0px 0px 4px 0px rgba(138, 63, 50, 0.8);
+    border-color: #361C01;
+    box-shadow: 0px 0px 5px 0px #361C01;
     transition: border-color 600ms, box-shadow 600ms;
   }
 `;
